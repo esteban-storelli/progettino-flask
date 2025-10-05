@@ -1,0 +1,10 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 2rem;
+}
+.center {
+    text-align: center;
+}
+.title {
+    font-size: 4rem;
+}
