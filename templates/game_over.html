@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Game Over</title>
-        <link rel="stylesheet" href="/static/game_over.css">
-    </head>
-    <body>
-        <div class="center title">Game Over!</div>
-        <div class="center">Finished with a score of {{score}}</div>
-    </body>
-</html>
+{% extends "header.html" %}
+
+{% block title %}Game Over{% endblock %}
+
+{% block content %}
+<div class="center title">Game Over!</div>
+<div class="center score-text">Finished with a score of {{score}}</div>
+{% endblock %}

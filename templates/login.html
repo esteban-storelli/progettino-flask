@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h2 class="center mb-2rem">Login to The Wikipedia Word Guesser</h2>
+    <form method="post" action="/login">
+        <div class="form-group">
+            <label for="email">email</label>
+            <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+        </div>
+        <button type="submit" class="btn green expand">Login</button>
+    </form>
+</div>
+{% endblock %}

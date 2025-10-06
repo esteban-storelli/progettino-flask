@@ -39,6 +39,20 @@ def get_random_article():
     article = Article(title=title, body=page.text)
     return article
 
+def get_article_by_title(title: str):
+    headers = {
+        "User-Agent": "progettino-flask/1.0 (esteban.storelli@samtrevano.ch)"
+    }
+
+    wiki = wikipediaapi.Wikipedia(user_agent=headers["User-Agent"], language='en')
+    page = wiki.page(title)
+
+    if not page.exists():
+        return None
+
+    article = Article(title=title, body=page.text)
+    return article
+
 @app.route("/game")
 def start_game():
     return continue_game(start=True)
@@ -52,6 +66,7 @@ def guess_answer():
         guess = 1
     elif higher_or_lower == "lower":
         guess = -1
+    # 0 = Numero uguale di parole = Si vince in entrambi i casi
     if guess == session["correct_answer"] or session["correct_answer"] == 0:
         return continue_game(start=False)
     else:
@@ -66,11 +81,10 @@ def continue_game(start: bool):
         article2 = get_random_article()
         session["score"] = 0
     else:
-        article1 = Article(session["next_article_title"], session["next_article_body"])
+        article1 = get_article_by_title(session["next_article_title"])
         article2 = get_random_article() 
         session["score"] += 1
     session["next_article_title"] = article2.title
-    session["next_article_body"] = article2.body
     if article1.word_count > article2.word_count:
         session["correct_answer"] = -1
     elif article1.word_count < article2.word_count:

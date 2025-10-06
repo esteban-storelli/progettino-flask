@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import url_for
 from routes.web import app as bp_web
+from routes.auth import app as bp_auth
 # from models.connection import db
 # from models.model import User
 from flask_migrate import Migrate
@@ -14,6 +15,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.register_blueprint(bp_web)
+app.register_blueprint(bp_auth, url_prefix="/auth")
 # app.register_blueprint(bp_api, url_prefix="/api")
 # app.register_blueprint(bp_auth, url_prefix="/auth")
 

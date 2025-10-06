@@ -1,3 +1,6 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+}
 .cards-container {
     display: flex;
     justify-content: center;
@@ -49,9 +52,43 @@
 }.red:hover {
     background: #891e2b;
 }
-
 .score-box {
     position: absolute; 
     top: 20px; 
     right: 30px; 
+}
+.link {
+    padding-right: 1rem;
+}
+.link-parent {
+    text-align: center;
+    padding-bottom: 4.5rem;
+}
+.score-text {
+    font-size: 2rem;
+}
+.center {
+    text-align: center;
+}
+.title {
+    font-size: 4rem;
+}
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.mb-2rem {
+    margin-bottom: 2rem;
+}
+.expand {
+    width: 100%;
+    margin-top: 1rem;
 }
