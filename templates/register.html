@@ -5,7 +5,7 @@
 {% block content %}
 <div class="login-container">
     <h2 class="center mb-2rem">Register to The Wikipedia Word Guesser</h2>
-    <form method="post" action="/register">
+    <form method="post" action="/auth/register">
         <div class="form-group">
             <label for="email">email</label>
             <input type="text" class="form-control" id="email" placeholder="Enter email" name="email" required>
@@ -22,6 +22,15 @@
             <label for="password">Confirm password</label>
             <input type="password" class="form-control" id="confirm" placeholder="Confirm password" name="confirm" required>
         </div>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert-danger" role="alert">
+              {% for message in messages %}
+                <div>{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
         <button type="submit" class="btn green expand">Register</button>
     </form>
 </div>

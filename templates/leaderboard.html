@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+{% for user in users %}
+	<div class="center score-text mb-10px">{{user.username}}</div>
+	<div class="center">High Score: {{user.high_score}}</div>
+	<div class="center">Number Of Plays: {{user.number_of_plays}}</div>
+	<div class="center">Total Points: {{user.total_points}}</div>
+	<div class="center">
+		Average Score:
+		{% if user.number_of_plays > 0 %}
+			{{ user.total_points / user.number_of_plays }}
+		{% else %}
+			N/A
+		{% endif %}
+	</div>
+{% endfor %}
+{% endblock %}

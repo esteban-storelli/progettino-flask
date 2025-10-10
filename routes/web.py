@@ -11,8 +11,20 @@ import requests
 
 from utils.article import Article
 
+from flask_login import current_user
+from models.user import User
+from models.connection import db
+
 
 app = Blueprint("default", __name__)
+
+@app.route("/")
+def show_main_page():
+    username = "Guest"
+    if current_user.is_authenticated:
+        username = current_user.username
+
+    return render_template("main_page.html", user=current_user, username=username)
 
 def get_random_article():
     headers = {
@@ -55,6 +67,9 @@ def get_article_by_title(title: str):
 
 @app.route("/game")
 def start_game():
+    if current_user.is_authenticated:
+        current_user.number_of_plays += 1
+        db.session.commit()
     return continue_game(start=True)
 
 
@@ -70,7 +85,11 @@ def guess_answer():
     if guess == session["correct_answer"] or session["correct_answer"] == 0:
         return continue_game(start=False)
     else:
-        return render_template("/game_over.html", score=session["score"])
+        if current_user.is_authenticated:
+            if current_user.high_score < session["score"]:
+                current_user.high_score = session["score"]
+                db.session.commit()
+        return render_template("/game_over.html", score=session["score"], user=current_user)
 
 def continue_game(start: bool):
     sleep(1)
@@ -84,6 +103,9 @@ def continue_game(start: bool):
         article1 = get_article_by_title(session["next_article_title"])
         article2 = get_random_article() 
         session["score"] += 1
+        if current_user.is_authenticated:
+            current_user.total_points += 1
+            db.session.commit()
     session["next_article_title"] = article2.title
     if article1.word_count > article2.word_count:
         session["correct_answer"] = -1
@@ -91,4 +113,9 @@ def continue_game(start: bool):
         session["correct_answer"] = 1
     else:
         session["correct_answer"] = 0
-    return render_template("/game.html", article1=article1, article2=article2, score=session["score"])
+    return render_template("/game.html", article1=article1, article2=article2, score=session["score"], user=current_user)
+
+@app.route("/leaderboard")
+def show_leaderboard():
+    users = User.query.order_by(User.high_score.desc()).all()
+    return render_template("leaderboard.html", users=users, user=current_user)

@@ -1,0 +1,18 @@
+{% extends "header.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="center title mb-2rem">{{user.username}}'s Profile</div>
+<div class="center score-text">High Score: {{user.high_score}}</div>
+<div class="center score-text">Number Of Plays: {{user.number_of_plays}}</div>
+<div class="center score-text">Total Points: {{user.total_points}}</div>
+<div class="center score-text">
+	Average Score:
+	{% if user.number_of_plays > 0 %}
+		{{ user.total_points / user.number_of_plays }}
+	{% else %}
+		N/A
+	{% endif %}
+</div>
+{% endblock %}

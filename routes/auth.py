@@ -17,11 +17,11 @@ app = Blueprint("auth", __name__)
 
 @app.route("/register")
 def show_register_page():
-    return render_template("register.html")
+    return render_template("register.html", user=current_user)
 
 @app.route("/login")
 def show_login_page():
-    return render_template("login.html")
+    return render_template("login.html", user=current_user)
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -31,7 +31,6 @@ def register():
     confirm = request.form.get("confirm")
 
     if not email or not username or not password or not confirm:
-        # TODO: FLASHES!!!!!
         flash("Please fill out all fields.")
         return redirect(url_for("auth.show_register_page"))
 
@@ -60,7 +59,7 @@ def register():
     return redirect(url_for("auth.show_profile"))
 
 @app.route("/login", methods=["POST"])
-def login_post():
+def login():
     email = request.form.get("email")
     password = request.form.get("password")
 
@@ -70,7 +69,7 @@ def login_post():
     if user:
         if user.check_password(password=password):
               login_user(user)
-              return redirect(url_for("auth.profile"))
+              return redirect(url_for("auth.show_profile"))
         else:
             flash("Invalid password.")
             return redirect(url_for("auth.login"))
@@ -81,11 +80,10 @@ def login_post():
 @app.route("/logout")
 @login_required
 def logout():
-    username = current_user.username
     logout_user()
-    return render_template("/auth/logout.html", name=username)
+    return redirect(url_for("default.show_main_page"))
 
 @app.route("/profile")
 @login_required
-def profile():
-    return render_template("/auth/profile.html", ddata=current_user.pass_data())
+def show_profile():
+    return render_template("/profile.html", user=current_user)
