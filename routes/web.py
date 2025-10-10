@@ -33,6 +33,7 @@ def get_random_article():
 
     response = requests.get(
         "https://en.wikipedia.org/w/api.php",
+        # Prende un articolo casuale
         params={
             "format": "json",
             "action": "query",
@@ -42,9 +43,10 @@ def get_random_article():
         },
         headers=headers
     )
-
+    # Estrae il titolo
     title = response.json()['query']['random'][0]['title']
 
+    # Recupera il contenuto
     wiki = wikipediaapi.Wikipedia(user_agent=headers["User-Agent"], language='en')
 
     page = wiki.page(title)
